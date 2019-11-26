@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   # Shorthand syntax for root address "/"
   root 'pages#home'
   get 'about', to: 'pages#about'
+
+  # Resources gives basic paths for articles like get, post, put, delete
+  # and also connects controllers
+  resources :articles
 end
