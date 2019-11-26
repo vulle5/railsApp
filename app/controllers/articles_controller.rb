@@ -1,4 +1,7 @@
 class ArticlesController < ApplicationController
+  # before these action run method set_article
+  before_action :set_article, only: [:edit, :update, :show, :destroy]
+
   # This method is called when route articles#new is found
   # If method is empty it will look for views/articles folder and
   # look for file new.html.erb and send it to user
@@ -11,7 +14,6 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
   end
 
   def create
@@ -26,7 +28,6 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    @article = Article.find(params[:id])
     if @article.update(article_params)
       flash[:notice] = "Article was successfully updated"
       redirect_to article_path(@article)
@@ -37,11 +38,9 @@ class ArticlesController < ApplicationController
 
   def show
     # Get id from params
-    @article = Article.find(params[:id])
   end
 
   def destroy
-    @article = Article.find(params[:id])
     @article.destroy
     flash[:notice] = "Article was successfully deleted"
     redirect_to articles_path
@@ -51,5 +50,9 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(:title, :description)
+  end
+
+  def set_article
+    @article = Article.find(params[:id])
   end
 end
