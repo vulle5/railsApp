@@ -2,6 +2,10 @@ class ArticlesController < ApplicationController
   # This method is called when route articles#new is found
   # If method is empty it will look for views/articles folder and
   # look for file new.html.erb and send it to user
+  def index
+    @articles = Article.all
+  end
+
   def new
     @article = Article.new
   end
