@@ -1,10 +1,4 @@
-<% if @article.errors.any? %>
-  <ul>
-    <% @article.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <%end%>
-  </ul>
-<%end%>
+<%= render "shared/errors", obj: @article %>
 <!--This finds instance variable @article found inside article controller-->
 <div class="row">
   <div class="col-xs-12">
