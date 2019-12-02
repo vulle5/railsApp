@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   # Resources gives basic paths for articles like get, post, put, delete
   # and also connects controllers
   resources :articles
+
+  get 'signup', to: 'users#new'
+  resources :users, except: [:new]
 end
