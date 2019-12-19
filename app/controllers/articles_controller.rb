@@ -59,7 +59,7 @@ class ArticlesController < ApplicationController
   end
 
   def same_user
-    return if current_user == @article.user
+    return if current_user == @article.user || current_user.admin?
 
     flash[:danger] = 'You can only edit and delete your own articles'
     redirect_to root_path
