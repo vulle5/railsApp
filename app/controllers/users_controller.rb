@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[edit update show]
   before_action :same_user, only: %i[edit update]
-  before_action :require_admin, only: [:destroy]
+  before_action :require_admin, :no_self_delete, only: [:destroy]
 
   def index
     @users = User.paginate(page: params[:page], per_page: 5)
@@ -62,16 +62,16 @@ class UsersController < ApplicationController
   end
 
   def require_admin
-    if logged_in? && current_user.admin? &&
-       current_user != User.find(params[:id])
-      return
-    end
+    return if logged_in? && current_user.admin?
 
-    flash[:danger] = if current_user == User.find(params[:id])
-                       'You cannot delete yourself'
-                     else
-                       'Only admin users can perform that action'
-                     end
+    flash[:danger] = 'Only admin users can perform that action'
     redirect_to root_path
+  end
+
+  def no_self_delete
+    return if current_user != User.find(params[:id])
+
+    flash[:danger] = 'You cannot delete yourself'
+    redirect_to users_path
   end
 end
